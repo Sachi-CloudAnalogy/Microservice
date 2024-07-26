@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Todo</title>
+</head>
+<body>
+    <h1>Update Todo</h1>
+    <form action="{{ url_for('update_todo', todo_id=todo['_id']) }}" method="post">
+        <label for="task">Task:</label>
+        <input type="text" id="task" name="task" value="{{ todo['task'] }}"><br>
+        <label for="status">Status:</label>
+        <input type="text" id="status" name="status" value="{{ todo['status'] }}"><br>
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" value="{{ todo['date'].strftime('%Y-%m-%d') }}"><br>
+        <button type="submit">Update</button>
+    </form>
+</body>
+</html>
