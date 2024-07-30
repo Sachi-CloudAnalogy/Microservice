@@ -1,7 +1,8 @@
 import bcrypt
-from flask import Flask, render_template, request
+from flask import Flask, jsonify, render_template, request
 from flask_login import login_user, LoginManager
 from pymongo.errors import DuplicateKeyError
+from jwt_util import generate_jwt
 from mongodb import models, MongoDBLibrary
 
 
@@ -25,11 +26,11 @@ def load_user(user_id):
         return models.User(**user)
     return None
 
-@app.route("/")
+@app.route("/auth")
 def home():
     return render_template("home.html")
 
-@app.route("/login", methods=['GET', 'POST'])
+@app.route("/auth/login", methods=['GET', 'POST'])
 def login():
     if request.method == "POST":
         email = request.form.get("email")
@@ -39,8 +40,9 @@ def login():
             if existing_user:
                 if bcrypt.checkpw(password.encode('utf-8'), existing_user["password"].encode('utf-8')):
                     user = models.User.from_mongo_doc(existing_user)
-                    login_user(user)
-                    return "Successfully logged in !!"
+                    #login_user(user)
+                    token = generate_jwt(email)  # Generate JWT
+                    return jsonify(message="Successfully logged in !!", token=token)
                 else:
                     return "Wrong password !!"
             else:
@@ -51,7 +53,7 @@ def login():
         return render_template("login.html")
 
     
-@app.route("/register", methods=['GET', 'POST'])
+@app.route("/auth/register", methods=['GET', 'POST'])
 def register():
     if request.method == "POST":
         email = request.form.get("email")
@@ -82,4 +84,4 @@ def register():
   
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=5000)
+    app.run(debug=True, host="0.0.0.0", port=5001)

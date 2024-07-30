@@ -35,7 +35,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\CA\Desktop\New folder\Microservices\Microservices_architecture\src_nosql\auth\venv"
+VIRTUAL_ENV="C:\Users\CA\Desktop\New folder\Microservices\Microservices_architecture\auth_nosql\venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"

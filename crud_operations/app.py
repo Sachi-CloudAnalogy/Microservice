@@ -23,7 +23,7 @@ def load_user(user_id):
         return models.User(**user)
     return None
 
-@app.route("/")
+@app.route("/todo/get_todo")
 def home():
     todos = db_lib.get_all_todos()
     return render_template("home.html", todos=todos)
@@ -64,4 +64,4 @@ def delete_todo(todo_id):
     return redirect(url_for('home'))
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=5000)
+    app.run(debug=True, host="0.0.0.0", port=5002)

@@ -1,39 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: authservice-deployment
+  name: flask-auth-deployment
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
-      app: authservice
+      app: flask-auth
   template:
     metadata:
       labels:
-        app: authservice
+        app: flask-auth
     spec:
       containers:
-      - name: authservice
-        image: s8535/authservice:latest 
+      - name: flask-auth
+        image: s8535/auth_service:latest  
         ports:
-        - containerPort: 5000
+        - containerPort: 5001
         env:
-        - name: FLASK_APP
-          value: "app.py"
-        - name: FLASK_ENV
-          value: "production"
-        - name: DATABASE_URL
-          value: "postgresql://postgres:sfdc@localhost:5432/Microservice"
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: authservice-service
-spec:
-  selector:
-    app: authservice
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 5000
-  type: LoadBalancer
+        - name: MONGO_URI
+          value: "mongodb+srv://root:XHyZVbDB8nRF9IYl@cluster.4qlbuab.mongodb.net/"
+        - name: DB_NAME
+          value: "Microservice"
+        - name: SECRET_KEY
+          value: "your_secret_key"
